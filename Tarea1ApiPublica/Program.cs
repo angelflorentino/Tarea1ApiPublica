@@ -1,23 +1,13 @@
-var builder = WebApplication.CreateBuilder(args);
+using Tarea1ApiPublica.AppServices;
+using Tarea1ApiPublica.Entities;
 
-// Add services to the container.
+CartasService cartasService = new CartasService();
 
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+List<Carta> cartas = await cartasService.GetCartaAsync(2);
 
-var app = builder.Build();
+Console.WriteLine("Cartas obtenidas:");
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+foreach (var carta in cartas)
 {
-    app.MapOpenApi();
+    Console.WriteLine($"Valor: {carta.value}, Palo: {carta.suit}");
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
